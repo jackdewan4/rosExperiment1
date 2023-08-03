@@ -52,13 +52,13 @@ def moveToPose(x, y, z, qx, qy, qz ,qw):
 
 
 rospy.loginfo("moving to point 1 \n")
-moveToPose(-1.807, 0.0828, 0, 0, 0, 0.008, 0.9999)
+moveToPose(-1.54, -1.207, 0, 0, 0, 0.1577, 0.987)
 rospy.loginfo("moving to point 2 \n")
-moveToPose(-1.9823, -1.5811, 0, 0, 0, 0.9999, 0.12828)
+moveToPose(0.2038, -2.9377, 0, 0, 0, 0.937, 0.3488)
 rospy.loginfo("moving to point 3 \n")
-moveToPose(-0.249, -1.643, 0, 0, 0, -0.75486, 0.655)
+moveToPose(-0.877, -0.55, 0, 0, 0, 0.9855, 0.16909)
 rospy.loginfo("moving to point 4 \n")
-moveToPose(0.0, 0, 0, 0, 0, -0.021, 0.999)
+moveToPose(-0.288, 0.819, 0, 0, 0, -0.1185, 0.992)
 
 
 
