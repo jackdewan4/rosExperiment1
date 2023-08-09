@@ -18,14 +18,21 @@ def movingForward(vel_msg, velocity_publisher, t0, current_distance, distance, s
     vel_msg.linear.x = forwardSpeed  
     vel_msg.angular.z = 0 #initialize angular z to zero   
     print('Is moving')  
+    # print(distance)
     while(current_distance < distance):
         velocity_publisher.publish(vel_msg)#Publish the velocity  
         #Take actual time to velocity calculation
         t1 = rospy.Time.now().to_sec()
+        print("time currently: ",t1)
+        print("time original: ",t0)
+        print("speed: ",speed)
+        
         current_distance = speed*(t1-t0)#calculates distance
+        print("current distance: ",current_distance)
         #Stop the robot when the front distance from obstacle is smaller than 1.0  
         # if (front < 1.0):   
         #     stop(vel_msg, velocity_publisher)
+    stop(vel_msg, velocity_publisher)
 
     time.sleep(1) # stop for 1 second
 
@@ -76,11 +83,12 @@ def turnCCW(vel_msg, velocity_publisher, t0, current_angle, turningSpeed, angle)
         #Take actual time to vel calculation
         t1 = rospy.Time.now().to_sec()
         current_angle = angular_speed*(t1-t0)#calculates distance
+        print(current_angle)
 
     time.sleep(1)#stop the robot for 1 second
 
 
-def leftWallFollowing():
+def blueTapeAvoiding():
     #initialize the node   
     rospy.init_node('tape_avoider', anonymous=True)
     #set topic for publisher
@@ -110,79 +118,35 @@ def leftWallFollowing():
             current_distance = 0
             scan_msg = rospy.wait_for_message("scan", LaserScan)
             front = scan_msg.ranges[1] 
+
             print('first corridor')
             # from start to end of first corridor
-            distance_req = 1.1
+            distance_req = 0.25
             movingForward(vel_msg,velocity_publisher, t0,  current_distance, distance_req, speed,0.3, front)
-            t0 = rospy.Time.now().to_sec()
-            # adjust for error in driving staright
-            turnCCW(vel_msg, velocity_publisher, t0, 0, 40, 3)
-            t0 = rospy.Time.now().to_sec()
-            distance_req = 1.1
-            movingForward(vel_msg,velocity_publisher, t0,  current_distance, distance_req, speed,0.3, front)
-            # # adjust for error in driving staright
-            # turnCCW(vel_msg, velocity_publisher, t0, 0, 40, 3)
-            # turn left
+            stop(vel_msg,velocity_publisher)
+            
+
             print('turning to next corridor')
             t0 = rospy.Time.now().to_sec()
-            turnCCW(vel_msg, velocity_publisher, t0, 0, 40, 70)
+            turnCCW(vel_msg, velocity_publisher, t0, 0, 40, 30)
 
-            # turn from first corridor to second corridor
-
-            # t0 = rospy.Time.now().to_sec()
-            # # distance_req = 100
-            # # from end of first corridor to end of second corridor 
-            # movingForward(vel_msg,velocity_publisher, t0,  current_distance, distance_req, speed,0.3, front)
-            # # turn from second corridor to third
-            # t0 = rospy.Time.now().to_sec()
-            # turnCCW(vel_msg, velocity_publisher, t0, 0, 40, 90)
-
-            # from first to second corridor
-            print('travelling down second corridor')
-            distance_req = 1.1
+            print('second corridor')
+            t0 = rospy.Time.now().to_sec()
+            distance_req = 0.25
             movingForward(vel_msg,velocity_publisher, t0,  current_distance, distance_req, speed,0.3, front)
-            t0 = rospy.Time.now().to_sec()
-            # adjust for error in driving staright
-            # turnCCW(vel_msg, velocity_publisher, t0, 0, 40, 3)
-            t0 = rospy.Time.now().to_sec()
-            distance_req = 0.95
-            print('travelling second half of the second corridor')
-            movingForward(vel_msg,velocity_publisher, t0,  current_distance, distance_req, speed,0.3, front)
-            # # adjust for error in driving staright
-            # turnCCW(vel_msg, velocity_publisher, t0, 0, 40, 3)
-            # turn left
-            print('turning to third corridor')
-            t0 = rospy.Time.now().to_sec()
-            turnCCW(vel_msg, velocity_publisher, t0, 0, 40, 80)
-            print('travelling second half of the third corridor')
+            stop(vel_msg,velocity_publisher)
 
-            t0 = rospy.Time.now().to_sec()
-            distance_req = 0.8
-            movingForward(vel_msg,velocity_publisher, t0,  current_distance, distance_req, speed,0.3, front)
-            t0 = rospy.Time.now().to_sec()
-            # adjust for error in driving staright
-            # turnCCW(vel_msg, velocity_publisher, t0, 0, 40, 3)
-            t0 = rospy.Time.now().to_sec()
-            distance_req = 0.8
-            movingForward(vel_msg,velocity_publisher, t0,  current_distance, distance_req, speed,0.3, front)
+            
 
-            print('turning to fourth corridor')
-            t0 = rospy.Time.now().to_sec()
-            turnCCW(vel_msg, velocity_publisher, t0, 0, 40, 75)
+            
 
-            print('travelling down fourth corridor')
-            t0 = rospy.Time.now().to_sec()
-            distance_req = 1
-            movingForward(vel_msg,velocity_publisher, t0,  current_distance, distance_req, speed,0.3, front)
-            t0 = rospy.Time.now().to_sec()
-            # adjust for error in driving staright
-            # turnCCW(vel_msg, velocity_publisher, t0, 0, 40, 3)
-            t0 = rospy.Time.now().to_sec()
-            distance_req = 0.8
-            movingForward(vel_msg,velocity_publisher, t0,  current_distance, distance_req, speed,0.3, front)
 
-            t0 = rospy.Time.now().to_sec()
-            turnCCW(vel_msg, velocity_publisher, t0, 0, 40, 70)
+
+            
+
+
+
+
         else:
             rospy.shutdown()
         
@@ -196,7 +160,7 @@ def leftWallFollowing():
         
         
         
-leftWallFollowing()  
+blueTapeAvoiding()  
         
         
         
