@@ -58,7 +58,9 @@ def moveToPose(x, y, z, qx, qy, qz ,qw):
 rospy.loginfo("moving to point 1 \n")
 moveToPose(-2.72769, -3.36656, 0, 0, 0, -0.99726, 0.07396)
 rospy.loginfo("successfully moved to point 1 \n")
-
+rospy.loginfo("moving to point 2 \n")
+moveToPose(-0.36579659425085065, -4.735887546581648, 0, 0, 0, -0.30180941427498437, 0.9533682800759583)
+rospy.loginfo("successfully moved to point 2 \n")
 
 
 if not finished:
